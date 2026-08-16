@@ -23,6 +23,7 @@ Detaily uzlu: [knots.md](knots.md). Další služby: [next-services.md](next-ser
 
 - Port **8332** (RPC) a **ZMQ** nikdy na internet, Cloudflare Tunnel ani Portainer public endpoint.
 - Port **8333** (P2P) může jít na WAN, pokud chceš inbound peery; jinak jen outbound.
+- Tor **SOCKS 9050** jen LAN / NAS; nikdy NPM ani Cloudflare Tunnel (otevřený proxy).
 - Electrum **50001** jen LAN/VPN; TLS (50002) až když je cert vyřešený.
 - Tajemství v `.env` (gitignored). V gitu jen `.env.example`.
 - Agent **negeneruje** seed, neukládá mnemonic, neexportuje wallet do chatu. Zálohy wallet jen lokální postup, bez obsahu souboru v konverzaci.
@@ -46,6 +47,7 @@ Do `bitcoin/bitcoind-knots/README.md` zapiš jen ne-tajné: porty, dataset, prun
 | Služba | Hostitel | Proč |
 | --- | --- | --- |
 | bitcoind-knots | TrueNAS app | disk I/O, kapacita, už nasazeno |
+| tor | Portainer na Docker LXC | SOCKS5 :9050 pro Knots i LAN; `proxy=DOCKER_LXC:9050` |
 | electrs | TrueNAS custom app | potřebuje datadir + RPC vedle uzlu |
 | mempool | TrueNAS custom app nebo Docker LXC | RPC+electrs; UI může být jinde, DB u indexeru |
 | Sparrow | desktop na LAN | není serverová služba |

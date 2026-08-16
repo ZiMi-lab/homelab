@@ -20,6 +20,7 @@ homelab/
 ├── docs/                    # odkazy na blog / už zprovozněné
 ├── inventory/
 ├── truenas/  proxmox/  bitcoin/
+├── tor/                     # SOCKS5 LAN (Portainer)
 ├── nginx-proxy-manager/     # interní HTTPS
 ├── cloudflared/             # tunnel (stack cf_tunnel)
 ├── netalertx/  homarr/  umami/  uptime-kuma/  portainer/

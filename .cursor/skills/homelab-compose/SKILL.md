@@ -52,5 +52,5 @@ Pro existující Portainer stack: export YAML do gitu, tajemství do `.env.examp
 ## Agent nesmí
 
 - Commitovat `.env`, `hosts.local.yml`, certifikáty, `wallet.dat`, RouterOS dump, LAN IP.
-- Publikovat Bitcoin RPC/Electrum na tunnel.
+- Publikovat Bitcoin RPC/Electrum ani Tor SOCKS na tunnel.
 - Měnit produkční stack bez compose v gitu.

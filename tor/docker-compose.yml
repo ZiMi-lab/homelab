@@ -1,0 +1,25 @@
+services:
+  tor:
+    image: leplusorg/tor:3.24.1
+    container_name: tor
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Europe/Prague}
+      # Uvnitř kontejneru musí SOCKS poslouchat na všech rozhraních LXC,
+      # jinak klienti na LAN (i Knots na NAS) nedorazí.
+      SOCKS_HOSTNAME: "0.0.0.0"
+      SOCKS_PORT: "9050"
+      TORRC_APPEND: |
+        ClientOnly 1
+        SocksPolicy accept 10.0.0.0/8
+        SocksPolicy accept 172.16.0.0/12
+        SocksPolicy accept 192.168.0.0/16
+        SocksPolicy reject *
+    volumes:
+      - tor_data:/var/lib/tor
+    ports:
+      - "${TOR_SOCKS_PORT:-9050}:9050"
+    # SOCKS je otevřený proxy. Jen trusted LAN / WG, nikdy NPM ani tunnel.
+
+volumes:
+  tor_data:

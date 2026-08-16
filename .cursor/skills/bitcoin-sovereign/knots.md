@@ -22,7 +22,7 @@ Skutečné `rpc_password` jen v TrueNAS UI a v lokálním `.env`.
 | `prune_size` | musí zůstat vypnuté/0 |
 | `block_filter_index_enabled` | hodí se walletům |
 | `public_rest_api_enabled` | nech vypnuté, dokud nevíš proč |
-| `additional_flags` | `txindex=1`, ZMQ, `rpcbind` pokud UI nenabízí |
+| `additional_flags` | `txindex=1`, ZMQ, `rpcbind` pokud UI nenabízí; Tor: `proxy=<DOCKER_LXC>:9050` |
 
 Knots defaultně filtruje spam; to je v pořádku. Neměň policy flags bez diskuse.
 

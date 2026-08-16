@@ -45,4 +45,4 @@ Důvěryhodná / IoT / guest / kamery / management. Přesná ID a CIDR jen v `ho
 1. LAN → NPM + Mikrotik DNS.
 2. Internet → existující tunnel, ne nový WAN port.
 3. Admin UI → LAN/WG.
-4. Bitcoin RPC / Electrum → jen LAN.
+4. Bitcoin RPC / Electrum / Tor SOCKS → jen LAN. SOCKS (`:9050`) není HTTP, ne přes NPM. Kdo smí na proxy, řeší MikroTik (trusted / address-list v `hosts.local.yml`), ne guest/IoT.

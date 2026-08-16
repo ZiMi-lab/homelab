@@ -17,6 +17,7 @@ Doplň runtime fakta (bez hesel):
 | txindex | TODO ano/ne |
 | prune | TODO vypnuto/velikost |
 | Inbound P2P | TODO |
+| Tor SOCKS | TODO `DOCKER_LXC:9050` (`tor/`) |
 
 RPC připojení pro další stacky: zkopíruj `.env.example` do `.env` (gitignored).
 

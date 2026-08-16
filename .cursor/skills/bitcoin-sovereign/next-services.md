@@ -1,5 +1,11 @@
 # Další Bitcoin služby
 
+## Tor SOCKS5
+
+Compose: `tor/` (Portainer na Docker LXC), ne TrueNAS. Sdílený SOCKS5 pro Knots i povolené LAN klienty.
+
+Klientský daemon (`leplusorg/tor`: Alpine + Tor z `apk` při buildu), ne `apk` v entrypointu a ne Tor relay. Knots `proxy=<DOCKER_LXC>:9050`, ne `127.0.0.1`. ACL kdo smí na :9050 je na MikroTiku (`hosts.local.yml`). `onlynet=onion` až po dokončeném sync. ControlPort / inbound onion až na žádost.
+
 ## electrs
 
 Compose: `bitcoin/electrs/`.
@@ -35,5 +41,6 @@ Až uzel + electrs běží týdny:
 
 - Altcoiny, mosty, CEX API klíče v tomto stacku
 - Veřejný Electrum server
+- Veřejný Tor SOCKS (NPM, tunnel, WAN)
 - Pruning kvůli místu, když plánuješ electrs
 - Druhý full node „pro jistotu“ bez důvodu (disk)

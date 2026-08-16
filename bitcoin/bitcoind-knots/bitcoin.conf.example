@@ -21,3 +21,11 @@ zmqpubrawtx=tcp://0.0.0.0:28333
 
 # volitelné: méně uploadu, když nechceš být veřejný peer
 # maxuploadtarget=500
+
+# Tor SOCKS5 (Portainer stack tor/, Docker LXC). Ne 127.0.0.1 — Knots běží na NAS.
+# IP LXC jen v hosts.local.yml / TrueNAS UI, ne do gitu.
+# proxy=DOCKER_LXC:9050
+#
+# S proxy se defaultně vypne listen. Inbound clearnet 8333 jen s listen=1
+# (pak jde uzel spojit přes Tor i IPv4 — viz bitcoin doc/tor.md).
+# onlynet=onion nedávej během IBD.
