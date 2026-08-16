@@ -3,7 +3,7 @@ description: Homelab IaC conventions, inventory, TrueNAS/Proxmox/Bitcoin skills.
 alwaysApply: true
 ---
 
-# Homelab docker
+# Homelab
 
 Veřejný IaC repo (TrueNAS SCALE 26.10, 2× Proxmox VE 9, Docker v LXC + Portainer, Bitcoin Knots).
 

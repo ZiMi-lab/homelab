@@ -15,7 +15,7 @@ Runtime: **TrueNAS SCALE 26.10**, **2× Proxmox VE 9** (cluster + qdevice), Dock
 ## 📂 Struktura
 
 ```text
-homelab-docker/
+homelab/
 ├── .cursor/skills/
 ├── docs/                    # odkazy na blog / už zprovozněné
 ├── inventory/

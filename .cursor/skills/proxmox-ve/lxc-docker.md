@@ -34,14 +34,14 @@ Po exportu do gitu je pravda `<služba>/docker-compose.yml` v tomto repu. Portai
 
 ```text
 Cursor  --edit-->  GitHub  --Portainer Git pull-->  /data/compose/<id>/v<n>/  (runtime kopie)
-                         --nebo git pull + compose-->  /opt/homelab-docker
+                         --nebo git pull + compose-->  /opt/homelab
 ```
 
 Pro existující stack:
 
 1. Z Portainer Editoru zkopíruj compose **bez secretů** do `<služba>/docker-compose.yml`.
 2. Proměnné do `.env.example`; ostré hodnoty nech v Portainer Environment.
-3. V Portaineru přepni stack na **Repository**: `https://github.com/ZiMi-lab/homelab-docker.git`, compose path např. `netalertx/docker-compose.yml`.
+3. V Portaineru přepni stack na **Repository**: `https://github.com/ZiMi-lab/homelab.git`, compose path např. `netalertx/docker-compose.yml`.
 4. Další změna jen v gitu, v UI už YAML needituj (jinak zase drift a nové `vN` mimo git).
 
 Lokální dump z Portaineru patří do gitignored `/dev/`, do gitu jen po vyčištění secretů.

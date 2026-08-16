@@ -1,6 +1,6 @@
 ---
 name: homelab-compose
-description: Add and change Docker Compose services in this public homelab-docker repo (IaC, .env.example, no secrets). Use when adding a stack, editing docker-compose.yml, or deploying to Portainer, Proxmox LXC, or TrueNAS custom apps.
+description: Add and change Docker Compose services in this public homelab repo (IaC, .env.example, no secrets). Use when adding a stack, editing docker-compose.yml, or deploying to Portainer, Proxmox LXC, or TrueNAS custom apps.
 ---
 
 # Homelab Compose IaC
