@@ -15,7 +15,7 @@ Není to HTTP — **ne NPM, ne Cloudflare Tunnel**. Přístup: `DOCKER_LXC:9050`
 | `TOR_SOCKS_PORT` | Port na LXC (default 9050). Stejný port v Knots i u klientů. |
 | `TOR_SOCKS_POLICY` | Tor `SocksPolicy` (čárkami, končí `reject *`). Přesné CIDR sem / do Portainer env, ne do gitu. |
 
-Default policy je RFC1918; zúž na trusted VLAN. IoT/guest ne. Kdo smí na `:9050`, řeší i MikroTik (address-list v `hosts.local.yml`).
+Default policy je loopback + RFC1918 (`127.0.0.0/8` musí zůstat kvůli healthchecku). LAN zúž na trusted VLAN. IoT/guest ne. Kdo smí na `:9050`, řeší i MikroTik (address-list v `hosts.local.yml`).
 
 ```bash
 curl -fsSL --socks5-hostname DOCKER_LXC:9050 https://check.torproject.org/api/ip
