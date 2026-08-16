@@ -61,6 +61,27 @@ Portainer UI (LAN, HTTPS přes NPM) je provoz, ne git. Admin Portaineru ani `:81
 
 Unprivileged CT, `nesting=1,keyctl=1,fuse=1`. Docker CE. Síť: důvěryhodná VLAN, statická IP, FQDN v Mikrotik DNS.
 
+## Docker bridge pooly (ne Portainer)
+
+Každý compose stack bez vlastní sítě dostane nový **bridge** od `dockerd`. Portainer UI na to pool nemá.
+
+Výchozí Docker: nejdřív `172.17.0.0/12` po **/16** na síť (~65k adres). Až dojdou, sáhne na `192.168.0.0/16` po **/20** (`192.168.0.0/20`, `192.168.16.0/20`, …) — to koliduje s běžným LAN. Zakázaný rozsah se nedá vypsat; platí jen **povolené** `default-address-pools`. Co v seznamu není, Docker na nové sítě nepoužije.
+
+Na LXC v `/etc/docker/daemon.json` (přesné CIDR jen v `hosts.local.yml`, ne do gitu):
+
+```json
+{
+  "default-address-pools": [
+    { "base": "172.30.0.0/16", "size": 24 }
+  ]
+}
+```
+
+- `default-address-pools` — z čeho se krájí sítě **stacků**. `size` je maska jedné sítě (`/24` stačí). `bip` **není potřeba**; ten mění jen default `docker0` (adresa hosta na tom bridge). Když `bip` vynecháš, `docker0` zůstane na 172.17.0.0/16. Když ho dáš, nesmí ležet uvnitř `base`.
+- `base` nesmí překrývat VLAN, WG, NAS.
+
+`systemctl restart docker`. Nové sítě berou nový pool. Staré (včetně `192.168.16.0/20`) zůstanou, dokud stack/síť nesmažeš a nevytvoříš znovu. Per-stack `ipam.subnet` v compose do veřejného gitu nedávej.
+
 ## Síť přístupu ke službám
 
 - **LAN:** Mikrotik static DNS → Nginx Proxy Manager (`80`/`443`) → kontejner. Certifikát Let’s Encrypt DNS-01 (Cloudflare).

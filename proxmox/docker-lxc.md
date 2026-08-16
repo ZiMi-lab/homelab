@@ -10,7 +10,7 @@
 
 **Cíl:** YAML v tomto repo, stack v Portaineru jako **Git repository** (env zůstane v UI). Cursor edituje git, ne `/data/compose`.
 
-Runbook: `.cursor/skills/proxmox-ve/lxc-docker.md`. Síť/TLS: `.cursor/skills/homelab-network/`. Zdroje: [docs/SOURCES.md](../docs/SOURCES.md).
+Runbook: `.cursor/skills/proxmox-ve/lxc-docker.md` (včetně Docker `default-address-pools` na LXC — Portainer pooly nestaví). Síť/TLS: `.cursor/skills/homelab-network/`. Zdroje: [docs/SOURCES.md](../docs/SOURCES.md).
 
 ## Přístup
 
