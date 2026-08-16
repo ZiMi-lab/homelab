@@ -3,15 +3,17 @@ services:
     container_name: netalertx
     image: ghcr.io/jokob-sk/netalertx:latest
     restart: unless-stopped
-    read_only: true
     network_mode: host
-
-    cap_drop: # Drop all capabilities for enhanced security
+    read_only: true
+    cap_drop:
       - ALL
-    cap_add: # Add only the necessary capabilities
-      - NET_ADMIN # Required for ARP scanning
-      - NET_RAW # Required for raw socket operations
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
       - NET_BIND_SERVICE
+      - CHOWN
+      - SETUID
+      - SETGID
     volumes:
       - type: volume
         source: netalertx_data
@@ -21,7 +23,7 @@ services:
     environment:
       - LISTEN_ADDR=${LISTEN_ADDR:-0.0.0.0}
       - TZ=${TZ}
-      - PORT=${PORT:-20211}
+      - PORT=${PORT}
       - GRAPHQL_PORT=${GRAPHQL_PORT:-20212}
     tmpfs:
       - /tmp:uid=20211,gid=20211,mode=1700,rw,noexec,nosuid,nodev,async,noatime,nodiratime
@@ -29,4 +31,7 @@ services:
 volumes:
   netalertx_data:
     external: true
-    
+  netalertx_db:
+    external: true
+  netalertx_config:
+    external: true

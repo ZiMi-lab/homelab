@@ -1,22 +1,11 @@
-version: '3.8'
-
 services:
   cloudflared:
     image: cloudflare/cloudflared
     container_name: cloudflared
-
-    # Pull variables from the .env file
     environment:
-      - TZ=${TZ}
+      - TZ=${TZ:-Europe/Prague}
       - TUNNEL_TOKEN=${TOKEN}
-
-    # Restart unless explicitly stopped
     restart: unless-stopped
-
-    # Command to run the tunnel without autoupdate
     command: tunnel --no-autoupdate run
-
-    # Allows the container to access services on the host
     extra_hosts:
       - "host.docker.internal:host-gateway"
-      

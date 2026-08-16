@@ -1,0 +1,26 @@
+services:
+  electrs:
+    image: getumbrel/electrs:v0.10.9
+    container_name: electrs
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      TZ: ${TZ:-Europe/Prague}
+      ELECTRS_NETWORK: bitcoin
+      ELECTRS_DAEMON_DIR: /bitcoin
+      ELECTRS_DB_DIR: /index
+      ELECTRS_DAEMON_RPC_ADDR: ${BITCOIN_RPC_HOST}:${BITCOIN_RPC_PORT}
+      ELECTRS_DAEMON_P2P_ADDR: ${BITCOIN_P2P_HOST}:${BITCOIN_P2P_PORT}
+      ELECTRS_COOKIE: ${BITCOIN_RPC_USER}:${BITCOIN_RPC_PASSWORD}
+      ELECTRS_ELECTRUM_RPC_ADDR: 0.0.0.0:50001
+      ELECTRS_LOG_FILTERS: INFO
+    volumes:
+      - ${BITCOIN_DATA}:/bitcoin:ro
+      - electrs_index:/index
+    ports:
+      - "${ELECTRS_PORT:-50001}:50001"
+    stop_grace_period: 10m
+
+volumes:
+  electrs_index:

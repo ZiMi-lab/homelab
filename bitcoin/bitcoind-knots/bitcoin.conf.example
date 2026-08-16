@@ -1,0 +1,23 @@
+# Šablona doplňků pro Knots, aby šel electrs + mempool.
+# Do produkce nepatří rpcpassword. Bind jen na LAN, ne 0.0.0.0/0.
+
+server=1
+txindex=1
+blockfilterindex=1
+peerblockfilters=1
+
+# RPC jen lokální síť (uprav CIDR)
+rpcbind=0.0.0.0
+rpcallowip=10.0.0.0/8
+rpcallowip=172.16.0.0/12
+rpcallowip=192.168.0.0/16
+rpcport=8332
+
+zmqpubrawblock=tcp://0.0.0.0:28332
+zmqpubrawtx=tcp://0.0.0.0:28333
+
+# Full node — prune vypnout v TrueNAS app (prune_size=0)
+# prune=0
+
+# volitelné: méně uploadu, když nechceš být veřejný peer
+# maxuploadtarget=500

@@ -6,6 +6,7 @@
 
 # VYJÍMKA: Povolit soubory .env.example
 !.env.example
+!**/.env.example
 
 # ----------------------------------------
 # ⚙️ SYSTEM & TEMPORARY FILES
@@ -30,9 +31,14 @@ docker-compose.override.yml
 **/docker-compose.override.yml
 
 # ----------------------------------------
+# 🗺️ SOUKROMÁ INVENTURA
+# ----------------------------------------
+inventory/hosts.local.yml
+
+# ----------------------------------------
 # ⛔ VÝVOJOVÉ A TESTOVACÍ ADRESÁŘE
 # ----------------------------------------
-# Ignoruje adresář /dev/ v kořeni projektu
+# Ignoruje adresář /dev/ v kořeni (lokální exporty z Portaineru, scratch)
 /dev/
 
 # Ignoruje adresáře, které mají v nazvu "tmp" nebo "temp"

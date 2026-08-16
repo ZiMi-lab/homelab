@@ -1,0 +1,25 @@
+---
+description: Homelab IaC conventions, inventory, TrueNAS/Proxmox/Bitcoin skills. Public repo — never commit secrets.
+alwaysApply: true
+---
+
+# Homelab docker
+
+Veřejný IaC repo (TrueNAS SCALE 26.10, 2× Proxmox VE 9, Docker v LXC + Portainer, Bitcoin Knots).
+
+## Před prací
+
+1. Přečti `inventory/hosts.yml`. Pokud existuje, overlay `inventory/hosts.local.yml`.
+2. Skills v `.cursor/skills/`: `truenas-scale`, `proxmox-ve`, `bitcoin-sovereign`, `homelab-compose`, `homelab-network`.
+3. Nové Docker služby podle existujících adresářů: compose + `.env.example` + README, bez tajemství. Existující Portainer stacky mají YAML v `/data/compose/<id>/v<n>/` (nestabilní); do gitu je exportuj, v UI je dál needituj.
+
+## Tajemství
+
+Nekommitovat `.env`, `hosts.local.yml`, API tokeny, `wallet.dat`, seed, RPC hesla, RouterOS export, LAN IP. Šablony jsou `.env.example`. Viz `docs/SECURITY.md`.
+
+## Runtime
+
+- TrueNAS: katalogové apps (Immich, Knots) dokumentovat; API = JSON-RPC `wss://FQDN/api/current` s ověřeným Let’s Encrypt, ne REST, ne `-k`.
+- Proxmox: 2nody + qdevice na TrueNAS, HA přes replikaci. Portainer stacky dnes drží compose v `/data/compose/<id>/v<n>/` — kanonický YAML má být git.
+- Síť: Mikrotik + Cloudflare security DoH + adlist, NPM (LAN HTTPS), Cloudflare Tunnel (internet), WireGuard (správa). Bitcoin RPC/Electrum jen LAN.
+- Do gitu nepatří IP, FQDN admin, firewall dump, address-list výjimky — viz `docs/SECURITY.md`.
