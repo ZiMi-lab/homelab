@@ -21,6 +21,7 @@ homelab/
 ├── inventory/
 ├── truenas/  proxmox/  bitcoin/
 ├── tor/                     # SOCKS5 LAN (Portainer)
+├── github-runner/           # CI runner GitHub Actions (vlastní LXC)
 ├── nginx-proxy-manager/     # interní HTTPS
 ├── cloudflared/             # tunnel (stack cf_tunnel)
 ├── netalertx/  homarr/  umami/  uptime-kuma/  portainer/
