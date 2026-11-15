@@ -1,0 +1,52 @@
+# GitHub Actions self-hosted runner z oficiálního image (ghcr.io/actions/actions-runner).
+# Ephemeral: runner vezme jeden job, odregistruje se, kontejner skončí a Docker spustí čistý.
+# Image nemá vlastní entrypoint, registraci dělá skript níže. Repozitáře a token jsou v Portainer env.
+x-runner: &runner
+  image: ghcr.io/actions/actions-runner:${RUNNER_IMAGE_TAG:-latest}
+  restart: unless-stopped
+  entrypoint: ["/bin/bash", "-c"]
+  # `$$` je kvůli Compose: proměnné vyhodnotí až shell v kontejneru.
+  command:
+    - |
+      set -euo pipefail
+      cd /home/runner
+      if [ -z "$${RUNNER_REPO:-}" ]; then
+        echo "RUNNER_REPO není nastavené, slot zůstává nevyužitý."
+        exec sleep infinity
+      fi
+      if [ -z "$${GH_RUNNER_PAT:-}" ]; then
+        echo "GH_RUNNER_PAT není nastavené." >&2
+        exit 1
+      fi
+      # Registrační token platí hodinu, ephemeral runner potřebuje nový při každém startu.
+      token=$$(curl -fsS -X POST \
+        -H "Authorization: Bearer $${GH_RUNNER_PAT}" \
+        -H "Accept: application/vnd.github+json" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        "https://api.github.com/repos/$${RUNNER_REPO}/actions/runners/registration-token" | jq -r .token)
+      # --replace převezme jméno, které po pádu zůstalo registrované.
+      # Bez --disableupdate: když GitHub vydá novou verzi, runner se aktualizuje sám a CI nečeká.
+      ./config.sh --url "https://github.com/$${RUNNER_REPO}" --token "$$token" \
+        --name "$${RUNNER_NAME}-$$(hostname)" --labels "$${RUNNER_LABELS}" \
+        --ephemeral --replace --unattended
+      exec ./run.sh
+  # docker.sock se nepřipojuje: joby Docker nepotřebují a se soketem by měly root nad LXC.
+
+services:
+  runner-1:
+    <<: *runner
+    environment:
+      TZ: ${TZ:-Europe/Prague}
+      GH_RUNNER_PAT: ${GH_RUNNER_PAT}
+      RUNNER_REPO: ${RUNNER_1_REPO:-}
+      RUNNER_NAME: ${RUNNER_1_NAME:-runner-1}
+      RUNNER_LABELS: ${RUNNER_1_LABELS:-ci}
+
+  runner-2:
+    <<: *runner
+    environment:
+      TZ: ${TZ:-Europe/Prague}
+      GH_RUNNER_PAT: ${GH_RUNNER_PAT}
+      RUNNER_REPO: ${RUNNER_2_REPO:-}
+      RUNNER_NAME: ${RUNNER_2_NAME:-runner-2}
+      RUNNER_LABELS: ${RUNNER_2_LABELS:-ci}
